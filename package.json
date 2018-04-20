@@ -1,0 +1,22 @@
+{
+  "name": "realworld",
+  "version": "1.0.0",
+  "description": "Realworld example app serverless python implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "python -m unittest api/**/tests.py --verbose --locals"
+  },
+  "keywords": [
+    "Realworld example app",
+    "Conduit",
+    "AWS Lambda",
+    "Python",
+    "Serverless"
+  ],
+  "author": "gyukebox (Byeong Gyu Choi)",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless": "^1.26.1",
+    "serverless-python-requirements": "^4.0.1"
+  }
+}

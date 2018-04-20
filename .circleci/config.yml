@@ -1,0 +1,101 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: choib24/serverless-python-deployment-environment
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: install python requirements
+          command: pip install -r requirements.txt
+      - run:
+          name: install node dependencies
+          command: npm install
+
+  test:
+    docker:
+      - image: choib24/serverless-python-deployment-environment
+    steps:
+      - checkout
+      - run:
+          name: install python requirements
+          command: pip install -r requirements.txt
+      - run:
+          name: install node dependencies
+          command: npm install
+      - run:
+          name: run tests
+          command: npm test
+
+  deploy-dev:
+    docker:
+      - image: choib24/serverless-python-deployment-environment
+    steps:
+      - checkout
+      - run:
+          name: install python requirements
+          command: pip install -r requirements.txt
+      - run:
+          name: install node dependencies
+          command: npm install
+      - run:
+          name: run tests
+          command: npm test
+      - run:
+          name: deploy to development stage
+          command: sls deploy --stage dev --verboxe
+
+  deploy-prod:
+    docker:
+      - image: choib24/serverless-python-deployment-environment
+    steps:
+      - checkout
+      - run:
+          name: install python requirements
+          command: pip install -r requirements.txt
+      - run:
+          name: install node dependencies
+          command: npm install
+      - run:
+          name: run tests
+          command: npm test
+      - run:
+          name: deploy to production stage
+          command: sls deploy --stage prod --verboxe
+
+workflows:
+  version: 2
+  build-test-devDeploy-prodDeploy:
+    jobs:
+      - build
+      - test:
+          requires: build
+      - deploy-dev:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+      - hold:
+          type: approval
+          requires:
+            - build
+            - test
+            - deploy-dev
+
+      - deploy-prod:
+          requires:
+            - build
+            - test
+            - deploy-dev
+            - hold
+          filters:
+            branches:
+              only: master
