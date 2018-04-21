@@ -23,6 +23,4 @@ WORKDIR /realworld
 
 ADD . /realworld
 
-RUN pip install -r requirements.txt
-
-RUN npm install
+RUN npm i -g npx

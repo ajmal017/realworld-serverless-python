@@ -47,7 +47,7 @@ jobs:
           command: npm test
       - run:
           name: deploy to development stage
-          command: sls deploy --stage dev --verboxe
+          command: npx sls deploy --stage dev --verboxe
 
   deploy-prod:
     docker:
@@ -65,7 +65,7 @@ jobs:
           command: npm test
       - run:
           name: deploy to production stage
-          command: sls deploy --stage prod --verboxe
+          command: npx sls deploy --stage prod --verboxe
 
 workflows:
   version: 2
