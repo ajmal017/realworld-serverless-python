@@ -96,21 +96,21 @@ functions:
     handler: api/profiles/handler.get_profile
     events:
       - http:
-          path: api/profiles/:username
+          path: api/profiles/{username}
           method: get
 
   followUser:
     handler: api/profiles/handler.follow_user
     events:
       - http:
-          path: api/profiles/:username/follow
+          path: api/profiles/{username}/follow
           method: post
 
   unfollowUser:
     handler: api/profiles/handler.unfollow_user
     events:
       - http:
-          path: api/profiles/:username/follow
+          path: api/profiles/{username}/follow
           method: delete
 
   listArticles:
@@ -145,49 +145,49 @@ functions:
     handler: api/articles/handler.update_article
     events:
       - http:
-          path: api/articles/:slug
+          path: api/articles/{slug}
           method: put
 
   deleteArticle:
     handler: api/articles/handler.delete_article
     events:
       - http:
-          path: api/articles/:slug
+          path: api/articles/{slug}
           method: delete
 
   addComment:
     handler: api/articles/comments/handler.add_comment
     events:
       - http:
-          path: api/articles/:slug/comments
+          path: api/articles/{slug}/comments
           method: post
 
   getComments:
     handler: api/articles/comments/handler.get_comments
     events:
       - http:
-          path: api/articles/:slug/comments
+          path: api/articles/{slug}/comments
           method: get
 
   deleteComment:
     handler: api/articles/comments/handler.delete_comment
     events:
       - http:
-          path: api/articles/:slug/comments/:id
+          path: api/articles/{slug}/comments/{id}
           method: delete
 
   favoriteArticle:
     handler: api/articles/favorite/handler/favorite_article
     events:
       - http:
-          path: api/articles/:slug/favorite
+          path: api/articles/{slug}/favorite
           method: post
 
   unfavoriteArticle:
     handler: api/articles/favorite/handler/unfavorite_article
     events:
       - http:
-          path: api/articles/:slug/favorite
+          path: api/articles/{slug}/favorite
           method: delete
 
   getTags:
