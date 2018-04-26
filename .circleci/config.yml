@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: choib24/serverless-python-deployment-environment
+      - image: choib24/serverless-python-deployment-environment:latest
 
     working_directory: ~/repo
 
@@ -18,54 +18,30 @@ jobs:
 
   test:
     docker:
-      - image: choib24/serverless-python-deployment-environment
+      - image: choib24/serverless-python-deployment-environment:latest
     steps:
       - checkout
-      - run:
-          name: install python requirements
-          command: pip install -r requirements.txt
-      - run:
-          name: install node dependencies
-          command: npm install
       - run:
           name: run tests
           command: npm test
 
   deploy-dev:
     docker:
-      - image: choib24/serverless-python-deployment-environment
+      - image: choib24/serverless-python-deployment-environment:latest
     steps:
       - checkout
       - run:
-          name: install python requirements
-          command: pip install -r requirements.txt
-      - run:
-          name: install node dependencies
-          command: npm install
-      - run:
-          name: run tests
-          command: npm test
-      - run:
           name: deploy to development stage
-          command: npx sls deploy --stage dev --verboxe
+          command: npx sls deploy --stage dev --verbose
 
   deploy-prod:
     docker:
-      - image: choib24/serverless-python-deployment-environment
+      - image: choib24/serverless-python-deployment-environment:latest
     steps:
       - checkout
       - run:
-          name: install python requirements
-          command: pip install -r requirements.txt
-      - run:
-          name: install node dependencies
-          command: npm install
-      - run:
-          name: run tests
-          command: npm test
-      - run:
           name: deploy to production stage
-          command: npx sls deploy --stage prod --verboxe
+          command: npx sls deploy --stage prod --verbose
 
 workflows:
   version: 2
