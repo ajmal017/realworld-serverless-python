@@ -1,7 +1,7 @@
 import uuid
-from sqlalchemy import Column, String
-from sqlalchemy_utils import EmailType, PasswordType, URLType, UUIDType
-
+import sqlalchemy as sa
+import sqlalchemy_utils as sau
+from sqlalchemy.orm import relationship
 from models.database import Base, Session
 
 
@@ -40,12 +40,13 @@ class UserManager(object):
         return user.serialize()
 
 
-class User(Base):
+class User(Base, sau.Timestamp):
     __tablename__ = 'conduit_api_user'
 
-    uuid = Column(
+    # base fields
+    uuid = sa.Column(
         'uuid',
-        UUIDType(
+        sau.UUIDType(
             binary=False
         ),
         primary_key=True,
@@ -53,36 +54,39 @@ class User(Base):
         unique=True,
         default=uuid.uuid4()
     )
-    email = Column(
+    email = sa.Column(
         'email',
-        EmailType,
+        sau.EmailType,
         nullable=False,
         unique=True,
     )
-    username = Column(
+    username = sa.Column(
         'username',
-        String(20),
+        sa.String(20),
         nullable=False
     )
-    password = Column(
+    password = sa.Column(
         'password',
-        PasswordType(
+        sau.PasswordType(
             schemes=[
                 'pbkdf2_sha512',
             ],
         ),
         nullable=False
     )
-    bio = Column(
+    bio = sa.Column(
         'bio',
-        String(100),
+        sa.String(100),
         nullable=True
     )
-    image = Column(
+    image = sa.Column(
         'image',
-        URLType,
+        sau.URLType,
         nullable=True
     )
+
+    # relationship fields
+    profile = relationship('Profile', uselist=False, back_populates='conduit_api_profile')
 
     __manager__ = UserManager()
 
@@ -93,6 +97,9 @@ class User(Base):
         return 'Conduit API User Model'
 
     def serialize(self):
+        """
+        returns JSON-serialized format of Model
+        """
         return {
             'email': self.email,
             'username': self.username,
