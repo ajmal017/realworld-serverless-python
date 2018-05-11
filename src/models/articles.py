@@ -2,7 +2,8 @@ import uuid
 import sqlalchemy as sa
 import sqlalchemy_utils as sau
 from sqlalchemy.orm import relationship
-from models.associations import profiles_articles_relationship_table
+from models.associations import \
+    profiles_articles_relationship_table, articles_tags_relationship_table
 from models.database import Base, Session
 
 
@@ -55,8 +56,8 @@ class Article(Base, sau.Timestamp):
 
     author_id = sa.Column(
         'author-id',
-        sau.UUIDType,
-        sa.ForeignKey('conduit_api_profile.user_id'),
+        sau.UUIDType(binary=False),
+        sa.ForeignKey('conduit_api_profile.user-id'),
         nullable=False,
         primary_key=False,
         unique=True
@@ -68,6 +69,11 @@ class Article(Base, sau.Timestamp):
         'Profile',
         secondary=profiles_articles_relationship_table,
         back_populates='conduit_api_articles'
+    )
+    tags = relationship(
+        'Article',
+        secondary=articles_tags_relationship_table,
+        back_populates='conduit_api_tags'
     )
 
     __manager__ = ArticleManager()

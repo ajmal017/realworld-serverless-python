@@ -1,6 +1,8 @@
 import sqlalchemy as sa
 import sqlalchemy_utils as sau
 from sqlalchemy.orm import relationship
+
+from associations import articles_comments_relationship_table
 from models.database import Base, Session
 
 
@@ -38,18 +40,24 @@ class Comment(Base, sau.Timestamp):
 
     author_id = sa.Column(
         'author-id',
-        sau.UUIDType,
-        sa.ForeignKey('conduit_api_profile.user_id')
+        sau.UUIDType(binary=False),
+        sa.ForeignKey('conduit_api_profile.user-id'),
+        nullable=False
     )
     article_id = sa.Column(
         'article-id',
-        sau.UUIDType,
-        sa.ForeignKey('conduit_api_article.uuid')
+        sau.UUIDType(binary=False),
+        sa.ForeignKey('conduit_api_article.uuid'),
+        nullable=False
     )
 
     # relationship fields
     author = relationship('Profile', back_populates='conduit_api_profile')
-    article = relationship('Article', back_populates='conduit_api_article')
+    article = relationship(
+        'Article',
+        secondary=articles_comments_relationship_table,
+        back_populates='conduit_api_article'
+    )
 
     __manager__ = CommentManager()
 

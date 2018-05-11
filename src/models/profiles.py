@@ -25,7 +25,7 @@ class Profile(Base, sau.Timestamp):
     # base fields
     user_id = sa.Column(
         'user-id',
-        sau.UUIDType,
+        sau.UUIDType(binary=False),
         sa.ForeignKey('conduit_api_user.uuid'),
         nullable=False,
         primary_key=True,

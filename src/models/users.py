@@ -2,7 +2,7 @@ import uuid
 import sqlalchemy as sa
 import sqlalchemy_utils as sau
 from sqlalchemy.orm import relationship
-from models.database import Base, Session
+from src.models.database import Base, Session
 
 
 class UserManager(object):
@@ -33,9 +33,7 @@ class UserManager(object):
         if not email or not password:
             raise ValueError('Both email and password must be provided')
 
-        user = self.session.query(User).filter(
-            User.email == email
-        ).one()
+        user = self.session.query(User).filter(User.email == email).one()
         assert user.password == password
         return user.serialize()
 
@@ -46,9 +44,7 @@ class User(Base, sau.Timestamp):
     # base fields
     uuid = sa.Column(
         'uuid',
-        sau.UUIDType(
-            binary=False
-        ),
+        sau.UUIDType(binary=False),
         primary_key=True,
         nullable=False,
         unique=True,
@@ -86,7 +82,11 @@ class User(Base, sau.Timestamp):
     )
 
     # relationship fields
-    profile = relationship('Profile', uselist=False, back_populates='conduit_api_profile')
+    profile = relationship(
+        'Profile',
+        uselist=False,
+        back_populates='conduit_api_profile'
+    )
 
     __manager__ = UserManager()
 

@@ -25,9 +25,7 @@ def upgrade():
         'conduit_api_user',
         sa.Column(
             'uuid',
-            UUIDType(
-                binary=False
-            ),
+            UUIDType(binary=False),
             primary_key=True,
             nullable=False,
             unique=True,

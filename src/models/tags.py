@@ -21,6 +21,14 @@ class Tag(Base):
     __tablename__ = 'conduit_api_tag'
 
     # base fields
+    id = sa.Column(
+        'id',
+        sa.Integer,
+        autoincrement=True,
+        primary_key=True,
+        unique=True,
+        nullable=False
+    )
     body = sa.Column(
         'body',
         sa.String(20),
@@ -28,7 +36,7 @@ class Tag(Base):
     )
 
     # relationship fields
-    article = relationship(
+    articles = relationship(
         'Article',
         secondary=articles_tags_relationship_table,
         back_populates='conduit_api_articles'
