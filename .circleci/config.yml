@@ -51,28 +51,28 @@ workflows:
       - test:
           requires:
             - build
-      - deploy-dev:
-          requires:
-            - build
-            - test
-          filters:
-            branches:
-              only:
-                - develop
-                - master
-      - hold:
-          type: approval
-          requires:
-            - build
-            - test
-            - deploy-dev
+      #- deploy-dev:
+      #    requires:
+      #      - build
+      #      - test
+      #    filters:
+      #      branches:
+      #        only:
+      #          - develop
+      #          - master
+      #- hold:
+      #    type: approval
+      #    requires:
+      #      - build
+      #      - test
+      #      - deploy-dev
 
-      - deploy-prod:
-          requires:
-            - build
-            - test
-            - deploy-dev
-            - hold
-          filters:
-            branches:
-              only: master
+      #- deploy-prod:
+      #    requires:
+      #      - build
+      #      - test
+      #      - deploy-dev
+      #      - hold
+      #    filters:
+      #      branches:
+      #        only: master
